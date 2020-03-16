@@ -9,6 +9,10 @@ async function getResults(query) {
 function createResults(data){
     const resultsList = document.getElementById("resultsList");
 
+    while (resultsList.firstChild) {
+        resultsList.removeChild(resultsList.lastChild);
+    }
+
     for (const company in data) {
         const name = `${data[company].name}`;
         const symbol = `${data[company].symbol}`;
