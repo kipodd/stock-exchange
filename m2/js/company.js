@@ -18,32 +18,27 @@ async function getGraph(symbol) {
     }
 }
 
+function makeElementVisibile(element) {
+    element.classList.remove("invisible");
+}
+
 function displayGraph(historicalPrice) {
     const ctx = document.getElementById('myChart').getContext('2d');
-    console.log(historicalPrice);
-    console.log(historicalPrice[0]);
+
     const dates = historicalPrice.map(x => x.date);
     const prices = historicalPrice.map(x => x.close);
-    console.log(dates);
+
     const chart = new Chart(ctx, {
         type: 'line',
-
         data: {
             labels: dates,
-            // labels: ["1992-12-16", "1992-12-17", "1992-12-18"],
-            // labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
                 label: 'Stock Price History',
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
                 data: prices
-                // data: [0.12, 0.12, 0.1]
-                // data: [0, 10, 5, 2, 20, 30, 45]
-                // data: historicalPrice
             }]
         },
-
-        // Configuration options go here
         options: {}
     });
 }
@@ -68,6 +63,9 @@ function displayCompanyData(companyData) {
     const changesPercentageElementText = document.createTextNode(changesPercentage);
     const descriptionElementText = document.createTextNode(description);
 
+    makeElementVisibile(imageElement);
+    makeElementVisibile(stockPriceText);
+
     imageElement.setAttribute("src", imageUrl);
     nameElement.appendChild(nameElementText);
     nameElement.setAttribute("href", websiteUrl);
@@ -77,7 +75,7 @@ function displayCompanyData(companyData) {
 
     if (changesPercentage.includes("+")) {
         changesPercentageElement.classList.add("text-success");
-    } else if (changesPercentage.includes("-")){
+    } else if (changesPercentage.includes("-")) {
         changesPercentageElement.classList.add("text-danger");
     }
 }
