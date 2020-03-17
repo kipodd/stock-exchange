@@ -1,3 +1,4 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js" integrity="sha256-R4pqcOYV8lt7snxMQO/HSbVCFRPMdrhAFMH+vr9giYI=" crossorigin="anonymous"></script>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,7 +19,7 @@
     </div>
     <div class="row mt-2">
         <div class="offset-2 col-8">
-            <span>Company price:</span>
+            <span>Stock price:</span>
             <span id="companyPrice"></span>
             <span id="changesPercentage"></span>
         </div>
@@ -30,7 +31,7 @@
     </div>
     <div class="row mt-5">
         <div class="offset-2 col-8">
-            <!-- chart -->
+            <canvas id="myChart"></canvas>
         </div>
     </div>
 </div>
