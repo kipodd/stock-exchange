@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Exchange</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row mt-5">
+            <div class="offset-2 col-8">
+                <div class="input-group mb-3">
+                    <input type="text" id="searchInput" class="form-control" aria-label="Stock Symbol">
+                    <div class="input-group-append">
+                        <button id="searchButton" class="btn btn-outline-secondary" type="button">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-2 col-8 d-flex justify-content-center">
+                <div id="stockSearchSpinner" class="spinner-grow d-none" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                <ul id="resultsList" class="list-group list-group-flush"></ul>
+            </div>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
