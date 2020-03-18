@@ -16,7 +16,7 @@ function createResults(data){
     for (const company in data) {
         const name = `${data[company].name}`;
         const symbol = `${data[company].symbol}`;
-        const url = `/company.html?symbol=${symbol}`;
+        const url = `company.html?symbol=${symbol}`;
         resultsList.insertAdjacentHTML("beforeend", `<a href="${url}" class="list-group-item">${name} ${symbol}</a>`);
     }
 
