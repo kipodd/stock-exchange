@@ -18,13 +18,15 @@ async function getGraph(symbol) {
     }
 }
 
-function makeElementVisibile(element) {
-    element.classList.remove("invisible");
+function addClass(elementName, className) {
+    const element = document.getElementById(elementName);
+    element.classList.add(className);
 }
 
 function displayGraph(historicalPrice) {
-    const ctx = document.getElementById('myChart').getContext('2d');
+    addClass(`historicalPriceChartSpinner`,`d-none`);
 
+    const ctx = document.getElementById('historicalPriceChart').getContext('2d');
     const dates = historicalPrice.map(x => x.date);
     const prices = historicalPrice.map(x => x.close);
 
@@ -44,6 +46,8 @@ function displayGraph(historicalPrice) {
 }
 
 function displayCompanyData(companyData) {
+    addClass(`companyDataSpinner`,`d-none`);
+
     const name = companyData.profile.companyName;
     const imageUrl = companyData.profile.image;
     const description = companyData.profile.description;
@@ -63,8 +67,8 @@ function displayCompanyData(companyData) {
     const changesPercentageElementText = document.createTextNode(changesPercentage);
     const descriptionElementText = document.createTextNode(description);
 
-    makeElementVisibile(imageElement);
-    makeElementVisibile(stockPriceText);
+    imageElement.classList.remove("invisible");
+    stockPriceText.classList.remove("invisible");
 
     imageElement.setAttribute("src", imageUrl);
     nameElement.appendChild(nameElementText);

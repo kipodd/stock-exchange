@@ -1,8 +1,10 @@
 async function getResults(query) {
     const stockSearchSpinner = document.getElementById("stockSearchSpinner");
     stockSearchSpinner.classList.remove("d-none");
+
     let response = await fetch(`https://financialmodelingprep.com/api/v3/search?query=${query}&limit=10&exchange=NASDAQ`);
     let data = await response.json();
+
     createResults(data);
 }
 

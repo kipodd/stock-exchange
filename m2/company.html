@@ -17,6 +17,13 @@
             <a class="ml-3" id="companyName"></a>
         </div>
     </div>
+    <div class="row">
+        <div class="offset-2 col-8 d-flex justify-content-center">
+            <div id="companyDataSpinner" class="spinner-grow" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
     <div class="row mt-2">
         <div class="offset-2 col-8">
             <span id="stockPriceText" class="invisible">Stock price:</span>
@@ -29,9 +36,16 @@
             <span id="companyDescription"></span>
         </div>
     </div>
+    <div class="row">
+        <div class="offset-2 col-8 d-flex justify-content-center">
+            <div id="historicalPriceChartSpinner" class="spinner-grow text-danger" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
     <div class="row mt-5">
         <div class="offset-2 col-8">
-            <canvas id="myChart"></canvas>
+            <canvas id="historicalPriceChart"></canvas>
         </div>
     </div>
 </div>
