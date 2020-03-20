@@ -1,11 +1,12 @@
 async function getResults(query) {
     removeClass("stockSearchSpinner", "invisible");
+    clearStockList();
 
     try {
-        const companysResponse = await fetch(`https://financialmodelingprep.com/api/v3/search?query=${query}&limit=10&exchange=NASDAQ`);
-        const companysData = await companysResponse.json();
+        const companyResponse = await fetch(`https://financialmodelingprep.com/api/v3/search?query=${query}&limit=10&exchange=NASDAQ`);
+        const companyData = await companyResponse.json();
 
-        await createResults(companysData);
+        createResults(companyData);
     } catch (error) {
         console.error(error);
     }
@@ -19,6 +20,13 @@ function addClass(elementName, className) {
 function removeClass(elementName, className) {
     const element = document.getElementById(elementName);
     element.classList.remove(className);
+}
+
+function clearStockList() {
+    const resultsList = document.getElementById("resultsList");
+    while (resultsList.firstChild) {
+        resultsList.removeChild(resultsList.lastChild);
+    }
 }
 
 function debounce(func, delay) {
@@ -35,33 +43,31 @@ function debounce(func, delay) {
     }
 }
 
-async function createResults(data) {
+function createResults(companyData) {
     const resultsList = document.getElementById("resultsList");
 
-    while (resultsList.firstChild) {
-        resultsList.removeChild(resultsList.lastChild);
-    }
+    companyData.map(async company => {
+        const url = `company.html?symbol=${company.symbol}`;
 
-    for (const company in data) {
-        const name = `${data[company].name}`;
-        const symbol = `${data[company].symbol}`;
-        const url = "company.html?symbol=" + symbol;
+        const companyProfileResponse = await fetch(`https://financialmodelingprep.com/api/v3/company/profile/${company.symbol}`);
+        const companyProfileData = await companyProfileResponse.json();
+        company.profile = companyProfileData.profile;
 
-        const companyDetailsResponse = await fetch(`https://financialmodelingprep.com/api/v3/company/profile/${symbol}`);
-        const companyDetailsData = await companyDetailsResponse.json();
+        resultsList.insertAdjacentHTML("beforeend", `
+                    <div class="list-group-item">
+                        <img src='${company.profile.image}' height="25px" alt="Company Image"/>
+                        <a class="ml-1" href="${url}">${company.name} ${company.symbol}</a>
+                        <span id="changesPercentage${company.symbol}" class="ml-1">${company.profile.changesPercentage}</span>
+                    </div>
+                 `);
 
-        const companyDetailsArray = [companyDetailsData];
-        // console.log(companyDetailsArray);
-
-        const imageUrl = companyDetailsArray.map(companyDetails => {
-            return companyDetails.profile.image;
-        });
-        const arr = [1,2,3];
-        console.log(Array.isArray(arr));
-        // console.log(typeof imageUrl);
-
-        resultsList.insertAdjacentHTML("beforeend", `<a href="${url}" class="list-group-item">${name} ${symbol}</a>`);
-    }
+        const changesPercentageElement = document.getElementById(`changesPercentage${company.symbol}`);
+        if (company.profile.changesPercentage.includes("+")) {
+            changesPercentageElement.classList.add("text-success");
+        } else if (company.profile.changesPercentage.includes("-")) {
+            changesPercentageElement.classList.add("text-danger");
+        }
+    });
 
     addClass("stockSearchSpinner", "invisible");
 }
