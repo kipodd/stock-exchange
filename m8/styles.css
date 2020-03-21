@@ -1,0 +1,21 @@
+.highlight {
+    background-color: yellow;
+}
+
+.stockMarqueeWrapperParent {
+    width: min-content;
+}
+
+#stockMarqueeWrapper {
+    animation: marq-animation 1000s linear infinite;
+    position: relative;
+}
+
+@keyframes marq-animation {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: -100%
+    }
+}
