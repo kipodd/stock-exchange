@@ -20,17 +20,12 @@ function removeClass(elementName, className) {
     element.classList.remove(className);
 }
 
-function debounce(func, delay) {
-    let timeoutID;
-
-    if (timeoutID) {
-        clearTimeout(timeoutID);
-    }
-
-    return function (...args) {
-        timeoutID = setTimeout(() => {
-            func(...args);
-        }, delay);
+function debounce(func, wait) {
+    let timeout;
+    return function(...args) {
+        const context = this;
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(context, args), wait)
     }
 }
 
