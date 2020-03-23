@@ -13,7 +13,7 @@ class Marquee {
     createMarquee(data) {
         for (let i = 0; i < 1000; i++) {
             const company = data.stockList[i];
-            stockMarqueeWrapper.insertAdjacentHTML(`beforeend`, `
+            this.stockMarqueeWrapper.insertAdjacentHTML(`beforeend`, `
                 <span>${company.symbol}</span>
                 <span class="text-success">${company.price}</span>
         `)

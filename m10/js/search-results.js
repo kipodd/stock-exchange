@@ -6,8 +6,8 @@ class SearchResults {
     }
 
     clearStockList() {
-        while (resultsList.firstChild) {
-            resultsList.removeChild(resultsList.lastChild);
+        while (this.resultsList.firstChild) {
+            this.resultsList.removeChild(this.resultsList.lastChild);
         }
     }
 
@@ -40,14 +40,17 @@ class SearchResults {
 
         companyData.map(async company => {
             const url = `company.html?symbol=${company.symbol}`;
-            const highlightedName = company.name.replace(pattern, `<span class="highlight">$&</span>`);
-            const highlightedSymbol = company.symbol.replace(pattern, `<span class="highlight">$&</span>`);
-
+            let highlightedName;
+            let highlightedSymbol;
+            if(company.name) {
+                highlightedName = company.name.replace(pattern, `<span class="highlight">$&</span>`);
+                highlightedSymbol = company.symbol.replace(pattern, `<span class="highlight">$&</span>`);
+            }
             const companyProfileResponse = await fetch(`https://financialmodelingprep.com/api/v3/company/profile/${company.symbol}`);
             const companyProfileData = await companyProfileResponse.json();
             company.profile = companyProfileData.profile;
 
-            resultsList.insertAdjacentHTML(`beforeend`, `
+            this.resultsList.insertAdjacentHTML(`beforeend`, `
                 <div class="list-group-item">
                     <img src="${company.profile.image}" height="25px" alt="Company Image"/>
                     <a class="ml-1" href="${url}">${highlightedName} ${highlightedSymbol}</a>
