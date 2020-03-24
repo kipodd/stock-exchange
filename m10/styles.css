@@ -11,6 +11,10 @@
     position: relative;
 }
 
+body {
+    overflow-x: hidden;
+}
+
 @keyframes marq-animation {
     0% {
         left: 0;
