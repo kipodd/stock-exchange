@@ -7,8 +7,8 @@ function displayContent() {
     const searchButton = document.getElementById(`searchButton`);
     const searchInput = document.getElementById(`searchInput`);
     const resultsList = document.getElementById(`resultsList`);
-    const compareCompaniesButton = document.getElementById(`compareCompaniesButton`);
-    const Form = new SearchForm(searchButton, searchInput, resultsList, stocksComparisionBar, compareCompaniesButton);
+    const stocksComparisionBar = document.getElementById(`stocksComparisionBar`);
+    const Form = new SearchForm(searchButton, searchInput, resultsList, stocksComparisionBar);
 
     Form.userInputListen();
 }

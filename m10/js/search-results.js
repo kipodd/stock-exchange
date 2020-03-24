@@ -2,7 +2,6 @@ class SearchResults {
     constructor(resultsList, stocksComparisionBar, compareCompaniesButton) {
         this.resultsList = resultsList;
         this.stocksComparisionBar = stocksComparisionBar;
-        this.compareCompaniesButton = compareCompaniesButton;
     }
 
     clearStockList() {
@@ -37,18 +36,19 @@ class SearchResults {
 
     createResults(companyData, query) {
         const pattern = new RegExp(`${query}`, `i`);
+        const ResultsCompaniesComparer = new CompaniesComparer(this.stocksComparisionBar);
 
         companyData.map(async company => {
-            const url = `company.html?symbol=${company.symbol}`;
-            let highlightedName;
-            let highlightedSymbol;
-            if(company.name) {
-                highlightedName = company.name.replace(pattern, `<span class="highlight">$&</span>`);
-                highlightedSymbol = company.symbol.replace(pattern, `<span class="highlight">$&</span>`);
+            if (!company.name) {
+                company.name = ``;
             }
             const companyProfileResponse = await fetch(`https://financialmodelingprep.com/api/v3/company/profile/${company.symbol}`);
             const companyProfileData = await companyProfileResponse.json();
             company.profile = companyProfileData.profile;
+
+            const highlightedName = company.name.replace(pattern, `<span class="highlight">$&</span>`);
+            const highlightedSymbol = company.symbol.replace(pattern, `<span class="highlight">$&</span>`);
+            const url = `company.html?symbol=${company.symbol}`;
 
             this.resultsList.insertAdjacentHTML(`beforeend`, `
                 <div class="list-group-item">
@@ -60,9 +60,7 @@ class SearchResults {
             `);
 
             const changesPercentageElement = document.getElementById(`changesPercentage${company.symbol}`);
-            const button = document.getElementById(`${company.symbol}CompareButton`);
-            button.companyObject = company;
-            button.myCount = 0;
+            const compareButton = document.getElementById(`${company.symbol}CompareButton`);
 
             if (company.profile.changesPercentage.includes(`+`)) {
                 changesPercentageElement.classList.add(`text-success`);
@@ -70,24 +68,11 @@ class SearchResults {
                 changesPercentageElement.classList.add(`text-danger`);
             }
 
-            button.addEventListener(`click`, this.getCompanyOnClick);
+            compareButton.addEventListener(`click`, () => {
+                ResultsCompaniesComparer.addCompany(company);
+            });
         });
 
         this.addClass(`stockSearchSpinner`, `invisible`);
-    }
-
-    getCompanyOnClick(event) {
-        const companyObject = event.currentTarget.companyObject;
-        console.log(event.currentTarget.myCount);
-        event.currentTarget.myCount += 2;
-        console.log(event.currentTarget.myCount);
-        event.currentTarget.myCount += 2;
-        console.log(event.currentTarget.myCount);
-        console.log(companyObject);
-        stocksComparisionBar.insertAdjacentHTML(`beforeend`, `
-            <button type="button" class="btn btn-light">${companyObject.symbol} &times;</button>
-        `);
-
-        compareCompaniesButton.textContent = `Compare`;
     }
 }
