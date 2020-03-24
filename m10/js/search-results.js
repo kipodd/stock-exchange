@@ -8,6 +8,7 @@ class SearchResults {
         while (this.resultsList.firstChild) {
             this.resultsList.removeChild(this.resultsList.lastChild);
         }
+        this.addClass(`noResults`, (`d-none`));
     }
 
     addClass(elementName, className) {
@@ -38,6 +39,9 @@ class SearchResults {
         const pattern = new RegExp(`${query}`, `i`);
         const ResultsCompaniesComparer = new CompaniesComparer(this.stocksComparisionBar);
 
+        if (!companyData.length) {
+            this.removeClass(`noResults`, `d-none`)
+        }
         companyData.map(async company => {
             if (!company.name) {
                 company.name = ``;

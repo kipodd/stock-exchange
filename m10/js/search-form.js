@@ -18,7 +18,7 @@ class SearchForm {
 
     userInputListen() {
         document.getElementById(`searchButton`).addEventListener(`click`, this.getSearchInput);
-        document.getElementById(`searchInput`).addEventListener(`keyup`, this.debounce(this.getSearchInput, 1000));
+        document.getElementById(`searchInput`).addEventListener(`keyup`, this.debounce(this.getSearchInput, 500));
     }
 
     getSearchInput() {

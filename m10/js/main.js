@@ -51,6 +51,11 @@ function loadHTML() {
             </div>
         </div>
         <div class="row">
+            <div class="offset-2 col-8 d-flex justify-content-center">
+                <p id="noResults" class="d-none">We searched far and wide. Unfortunately, no results were found.</p>
+            </div>
+        </div>
+        <div class="row">
             <div class="offset-2 col-8">
                 <ul id="resultsList" class="list-group list-group-flush"></ul>
             </div>
