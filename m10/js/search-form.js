@@ -4,6 +4,7 @@ class SearchForm {
         this.searchInput = searchInput;
         this.resultsList = resultsList;
         this.stocksComparisionBar = stocksComparisionBar;
+        this.userInputListen()
     }
 
     debounce(func, wait) {
