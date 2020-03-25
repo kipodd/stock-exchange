@@ -38,7 +38,7 @@ class CompaniesComparer {
     setCompareUrl(compareCompaniesButton) {
         let params = new URLSearchParams();
         for (const symbol of this.symbols) {
-            params.set(`symbol`, symbol);
+            params.append(`symbol`, symbol);
         }
 
         compareCompaniesButton.href = `company.html?${params.toString()}`;

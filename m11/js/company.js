@@ -1,13 +1,19 @@
-function getSymbolQueryString() {
+function getSymbolsQueryString() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(`symbol`);
+    return urlParams.getAll(`symbol`);
 }
 
-const symbol = getSymbolQueryString();
-const parentElement = document.getElementById(`companyInfoContainer`);
+function createCompanyContainers(companyContainerWrapper, symbols) {
+    const columnsAmount =  12 / symbols.length;
+    for (const symbol of symbols) {
+        companyContainerWrapper.insertAdjacentHTML(`beforeend`, `
+            <div id="${symbol}Container" class="col-${columnsAmount}"></div>
+        `);
+        const parentElement = document.getElementById(`${symbol}Container`);
+        new CompanyInfo(parentElement, symbol);
+    }
+}
 
-const MyCompanyInfo = new CompanyInfo(parentElement, symbol);
-
-MyCompanyInfo.loadHTML();
-MyCompanyInfo.getCompanyDetails();
-MyCompanyInfo.getGraph();
+const symbols = getSymbolsQueryString();
+const companyContainerWrapper = document.getElementById(`companyContainerWrapper`);
+createCompanyContainers(companyContainerWrapper, symbols);

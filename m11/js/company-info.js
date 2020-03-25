@@ -2,45 +2,49 @@ class CompanyInfo {
     constructor(parentElement, symbol) {
         this.parentElement = parentElement;
         this.symbol = symbol;
+
+        this.loadHTML();
+        this.getCompanyDetails();
+        this.getGraph();
     }
 
     loadHTML() {
         this.parentElement.insertAdjacentHTML(`beforeend`, `
             <div class="row mt-5">
-                <div class="offset-2 col-8">
-                    <img class="invisible" id="companyImage" alt="Company image"/>
-                    <a class="ml-3" id="companyName"></a>
+                <div class="col-12">
+                    <img class="invisible" id="${this.symbol}companyImage" alt="Company image"/>
+                    <a class="ml-3" id="${this.symbol}companyName"></a>
                 </div>
             </div>
             <div class="row">
-                <div class="offset-2 col-8 d-flex justify-content-center">
-                    <div id="companyDataSpinner" class="spinner-grow" role="status">
+                <div class="col-12 d-flex justify-content-center">
+                    <div id="${this.symbol}companyDataSpinner" class="spinner-grow" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
             </div>
             <div class="row mt-2">
-                <div class="offset-2 col-8">
-                    <span id="stockPriceText" class="invisible">Stock price:</span>
-                    <span id="companyPrice"></span>
-                    <span id="changesPercentage"></span>
+                <div class="col-12">
+                    <span id="${this.symbol}stockPriceText" class="invisible">Stock price:</span>
+                    <span id="${this.symbol}companyPrice"></span>
+                    <span id="${this.symbol}changesPercentage"></span>
                 </div>
             </div>
             <div class="row mt-4">
-                <div class="offset-2 col-8">
-                    <span id="companyDescription"></span>
+                <div class="col-12">
+                    <span id="${this.symbol}companyDescription"></span>
                 </div>
             </div>
             <div class="row">
-                <div class="offset-2 col-8 d-flex justify-content-center">
-                    <div id="historicalPriceChartSpinner" class="spinner-grow text-danger" role="status">
+                <div class="col-12 d-flex justify-content-center">
+                    <div id="${this.symbol}historicalPriceChartSpinner" class="spinner-grow text-danger" role="status">
                         <span class="sr-only">Loading...</span>
                     </div>
                 </div>
             </div>
             <div class="row mt-5">
-                <div class="offset-2 col-8">
-                    <canvas id="historicalPriceChart"></canvas>
+                <div class="col-12">
+                    <canvas id="${this.symbol}historicalPriceChart"></canvas>
                 </div>
             </div>
         `);
@@ -72,9 +76,9 @@ class CompanyInfo {
     }
 
     displayGraph(historicalPrice) {
-        this.addClass(`historicalPriceChartSpinner`, `d-none`);
+        this.addClass(`${this.symbol}historicalPriceChartSpinner`, `d-none`);
 
-        const ctx = document.getElementById(`historicalPriceChart`).getContext(`2d`);
+        const ctx = document.getElementById(`${this.symbol}historicalPriceChart`).getContext(`2d`);
         const dates = historicalPrice.map(x => x.date);
         const prices = historicalPrice.map(x => x.close);
 
@@ -94,7 +98,7 @@ class CompanyInfo {
     }
 
     displayCompanyData(companyData) {
-        this.addClass(`companyDataSpinner`, `d-none`);
+        this.addClass(`${this.symbol}companyDataSpinner`, `d-none`);
 
         const name = companyData.profile.companyName;
         const imageUrl = companyData.profile.image;
@@ -104,11 +108,11 @@ class CompanyInfo {
         const changesPercentage = companyData.profile.changesPercentage;
         const industry = companyData.profile.industry;
 
-        const imageElement = document.getElementById(`companyImage`);
-        const nameElement = document.getElementById(`companyName`);
-        const priceElement = document.getElementById(`companyPrice`);
-        const changesPercentageElement = document.getElementById(`changesPercentage`);
-        const descriptionElement = document.getElementById(`companyDescription`);
+        const imageElement = document.getElementById(`${this.symbol}companyImage`);
+        const nameElement = document.getElementById(`${this.symbol}companyName`);
+        const priceElement = document.getElementById(`${this.symbol}companyPrice`);
+        const changesPercentageElement = document.getElementById(`${this.symbol}changesPercentage`);
+        const descriptionElement = document.getElementById(`${this.symbol}companyDescription`);
 
         const nameElementText = document.createTextNode(`${name} (${industry})`);
         const priceElementText = document.createTextNode(price);
@@ -116,7 +120,7 @@ class CompanyInfo {
         const descriptionElementText = document.createTextNode(description);
 
         imageElement.classList.remove(`invisible`);
-        stockPriceText.classList.remove(`invisible`);
+        // stockPriceText.classList.remove(`invisible`);
 
         imageElement.setAttribute(`src`, imageUrl);
         nameElement.appendChild(nameElementText);
