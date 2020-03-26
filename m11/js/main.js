@@ -63,6 +63,7 @@ function loadHTML() {
     `);
 }
 
+
 loadHTML();
 displayMarquee();
 displayContent();

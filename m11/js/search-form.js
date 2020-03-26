@@ -4,7 +4,17 @@ class SearchForm {
         this.searchInput = searchInput;
         this.resultsList = resultsList;
         this.stocksComparisionBar = stocksComparisionBar;
-        this.userInputListen()
+        this.ResultsClass = new SearchResults(this.resultsList, this.stocksComparisionBar);
+
+        this.searchQueryString();
+        this.userInputListen();
+    }
+
+    searchQueryString() {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has(`query`)) {
+            this.ResultsClass.getResults(urlParams.get(`query`))
+        }
     }
 
     debounce(func, wait) {
@@ -17,12 +27,21 @@ class SearchForm {
     }
 
     userInputListen() {
-        document.getElementById(`searchButton`).addEventListener(`click`, this.getSearchInput);
-        document.getElementById(`searchInput`).addEventListener(`keyup`, this.debounce(this.getSearchInput, 500));
+        document.getElementById(`searchButton`).addEventListener(`click`, () => {
+            this.getSearchInput();
+        });
+        document.getElementById(`searchInput`).addEventListener(`keyup`, this.debounce(() => {
+            this.getSearchInput();
+        }, 500));
     }
 
     getSearchInput() {
-        this.ResultsClass = new SearchResults(resultsList, stocksComparisionBar);
-        this.ResultsClass.getResults(searchInput.value);
+        this.updateQueryString(this.searchInput.value);
+        this.ResultsClass.getResults(this.searchInput.value);
+    }
+
+    updateQueryString(queryString) {
+        const pageUrl = `?query=${queryString}`;
+        window.history.pushState('', '', pageUrl);
     }
 }
