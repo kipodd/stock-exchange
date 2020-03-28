@@ -30,6 +30,7 @@ class CompaniesComparer {
 
         const compareCompaniesButton = document.getElementById(`compareCompaniesButton`);
         compareCompaniesButton.innerText = `Compare ${this.symbols.length} companies`;
+        this.setCompareUrl(compareCompaniesButton);
         if (this.symbols.length <= 1) {
             compareCompaniesButton.classList.add(`invisible`);
         }

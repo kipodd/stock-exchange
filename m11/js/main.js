@@ -1,14 +1,10 @@
-function displayMarquee() {
-    const MyMarquee = new Marquee(document.getElementById(`stockMarqueeWrapper`));
-    MyMarquee.getRealTimePrices();
-}
-
 function displayContent() {
     const searchButton = document.getElementById(`searchButton`);
     const searchInput = document.getElementById(`searchInput`);
     const resultsList = document.getElementById(`resultsList`);
     const stocksComparisionBar = document.getElementById(`stocksComparisionBar`);
 
+    new Marquee(document.getElementById(`stockMarqueeWrapper`));
     new SearchForm(searchButton, searchInput, resultsList, stocksComparisionBar);
 }
 
@@ -65,5 +61,4 @@ function loadHTML() {
 
 
 loadHTML();
-displayMarquee();
 displayContent();

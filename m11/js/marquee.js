@@ -1,6 +1,7 @@
 class Marquee {
     constructor(stockMarqueeWrapper) {
         this.stockMarqueeWrapper = stockMarqueeWrapper;
+        this.getRealTimePrices();
     }
 
     async getRealTimePrices() {
