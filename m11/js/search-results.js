@@ -58,25 +58,12 @@ class SearchResults {
         const promiseContainer = companyTriplets.map(async triplet => {
             const tripletsSymbols = triplet.map(triplet => triplet.symbol).join();
             const tripletProfileResponse = await fetch(`https://financialmodelingprep.com/api/v3/company/profile/${tripletsSymbols}`);
-            const tripletProfileData = await tripletProfileResponse.json();
-
-            // for (const company of triplet) {
-            //     // if (triplet.length === 1) {
-            //     //     company.profile = tripletProfileData.profile;
-            //     // } else {
-            //     //     console.log(tripletProfileData);
-            //     // }
-            //     console.log(company);
-            // }
-            return tripletProfileData;
+            return await tripletProfileResponse.json();
         });
 
-        console.log(promiseContainer);
-        let a = await Promise.all(promiseContainer).then(values => {
+        return await Promise.all(promiseContainer).then(values => {
             return values;
         });
-        console.log(a);
-        return a;
     }
 
     async createResults(companyData, query) {
@@ -96,8 +83,8 @@ class SearchResults {
         //  draft:  can i extract symbol without another loop?
 
         const companyTriplets = this.splitIntoChildArrays(companyData, 2);
-        let b = await this.fetchRestults(companyTriplets);
-        console.log(b);
+        let companyProfileTriplet = await this.fetchRestults(companyTriplets);
+        console.log(companyProfileTriplet);
 
         // companyData.map(async company => {
         //     if (!company.name) {
