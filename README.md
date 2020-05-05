@@ -1,4 +1,4 @@
 # stock-exchange
-Monitor the market and compare stock prices history of companies
+Monitor the market and compare stock price history of companies.
 
-See live version: https://kipodd.github.io/stock-exchange/
+See the live version here: https://kipodd.github.io/stock-exchange/
