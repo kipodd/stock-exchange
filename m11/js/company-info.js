@@ -79,10 +79,19 @@ class CompanyInfo {
         this.addClass(`${this.symbol}historicalPriceChartSpinner`, `d-none`);
 
         const ctx = document.getElementById(`${this.symbol}historicalPriceChart`).getContext(`2d`);
-        const dates = historicalPrice.map(x => x.date);
-        const prices = historicalPrice.map(x => x.close);
 
-        const chart = new Chart(ctx, {
+        const historicalPriceLength = historicalPrice.length
+        const dates = [historicalPrice[0].date]
+        const prices = [historicalPrice[0].close]
+        for (let i = 0; i <= 1; i += 0.1) {
+            const historicalIndex = Math.floor(historicalPriceLength * i)
+            dates.push(historicalPrice[historicalIndex].date)
+            prices.push(historicalPrice[historicalIndex].close)
+        }
+        dates.push(historicalPrice[historicalPriceLength - 1].date)
+        prices.push(historicalPrice[historicalPriceLength - 1].close)
+
+        new Chart(ctx, {
             type: `line`,
             data: {
                 labels: dates,
@@ -92,8 +101,7 @@ class CompanyInfo {
                     borderColor: `rgb(255, 99, 132)`,
                     data: prices
                 }]
-            },
-            options: {}
+            }
         });
     }
 
