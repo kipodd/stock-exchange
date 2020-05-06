@@ -1,16 +1,18 @@
 function displayContent() {
-    const searchButton = document.getElementById(`searchButton`);
-    const searchInput = document.getElementById(`searchInput`);
-    const resultsList = document.getElementById(`resultsList`);
-    const stocksComparisionBar = document.getElementById(`stocksComparisionBar`);
+  const searchButton = document.getElementById(`searchButton`);
+  const searchInput = document.getElementById(`searchInput`);
+  const resultsList = document.getElementById(`resultsList`);
+  const stocksComparisionBar = document.getElementById(`stocksComparisionBar`);
 
-    new Marquee(document.getElementById(`stockMarqueeWrapper`));
-    new SearchForm(searchButton, searchInput, resultsList, stocksComparisionBar);
+  new Marquee(document.getElementById(`stockMarqueeWrapper`));
+  new SearchForm(searchButton, searchInput, resultsList, stocksComparisionBar);
 }
 
 function loadHTML() {
-    const mainCotainer = document.getElementById(`mainContainer`);
-    mainCotainer.insertAdjacentHTML(`beforeend`, `
+  const mainCotainer = document.getElementById(`mainContainer`);
+  mainCotainer.insertAdjacentHTML(
+    `beforeend`,
+    `
         <div class="row">
             <div class="col-12">
                 <div class="stockMarqueeWrapperParent">
@@ -56,9 +58,9 @@ function loadHTML() {
                 <ul id="resultsList" class="list-group list-group-flush"></ul>
             </div>
         </div>
-    `);
+    `
+  );
 }
-
 
 loadHTML();
 displayContent();

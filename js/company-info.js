@@ -1,15 +1,17 @@
 class CompanyInfo {
-    constructor(parentElement, symbol) {
-        this.parentElement = parentElement;
-        this.symbol = symbol;
+  constructor(parentElement, symbol) {
+    this.parentElement = parentElement;
+    this.symbol = symbol;
 
-        this.loadHTML();
-        this.getCompanyDetails();
-        this.getGraph();
-    }
+    this.loadHTML();
+    this.getCompanyDetails();
+    this.getGraph();
+  }
 
-    loadHTML() {
-        this.parentElement.insertAdjacentHTML(`beforeend`, `
+  loadHTML() {
+    this.parentElement.insertAdjacentHTML(
+      `beforeend`,
+      `
             <div class="row mt-5">
                 <div class="col-12">
                     <img class="invisible" id="${this.symbol}companyImage" alt="Company image"/>
@@ -47,100 +49,115 @@ class CompanyInfo {
                     <canvas id="${this.symbol}historicalPriceChart"></canvas>
                 </div>
             </div>
-        `);
+      `
+    );
+  }
+
+  async getCompanyDetails() {
+    try {
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v3/company/profile/${this.symbol}`
+      );
+      const data = await response.json();
+      this.displayCompanyData(data);
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    async getCompanyDetails() {
-        try {
-            const response = await fetch(`https://financialmodelingprep.com/api/v3/company/profile/${this.symbol}`);
-            const data = await response.json();
-            this.displayCompanyData(data);
-        } catch (error) {
-            console.error(error);
-        }
+  async getGraph() {
+    try {
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v3/historical-price-full/${this.symbol}?serietype=line`
+      );
+      const data = await response.json();
+      this.displayGraph(data.historical);
+    } catch (error) {
+      console.error(error);
     }
+  }
 
-    async getGraph() {
-        try {
-            const response = await fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${this.symbol}?serietype=line`);
-            const data = await response.json();
-            this.displayGraph(data.historical);
-        } catch (error) {
-            console.error(error);
-        }
+  addClass(elementName, className) {
+    const element = document.getElementById(elementName);
+    element.classList.add(className);
+  }
+
+  displayGraph(historicalPrice) {
+    this.addClass(`${this.symbol}historicalPriceChartSpinner`, `d-none`);
+
+    const ctx = document
+      .getElementById(`${this.symbol}historicalPriceChart`)
+      .getContext(`2d`);
+
+    const historicalPriceLength = historicalPrice.length;
+    const dates = [historicalPrice[0].date];
+    const prices = [historicalPrice[0].close];
+    for (let i = 0; i <= 1; i += 0.1) {
+      const historicalIndex = Math.floor(historicalPriceLength * i);
+
+      dates.push(historicalPrice[historicalIndex].date);
+      prices.push(historicalPrice[historicalIndex].close);
     }
+    dates.push(historicalPrice[historicalPriceLength - 1].date);
+    prices.push(historicalPrice[historicalPriceLength - 1].close);
 
-    addClass(elementName, className) {
-        const element = document.getElementById(elementName);
-        element.classList.add(className);
+    new Chart(ctx, {
+      type: `line`,
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: `Stock Price History`,
+            backgroundColor: `rgb(255, 99, 132)`,
+            borderColor: `rgb(255, 99, 132)`,
+            data: prices,
+          },
+        ],
+      },
+    });
+  }
+
+  displayCompanyData(companyData) {
+    this.addClass(`${this.symbol}companyDataSpinner`, `d-none`);
+
+    const name = companyData.profile.companyName;
+    const imageUrl = companyData.profile.image;
+    const description = companyData.profile.description;
+    const websiteUrl = companyData.profile.website;
+    const price = companyData.profile.price;
+    const changesPercentage = companyData.profile.changesPercentage;
+    const industry = companyData.profile.industry;
+
+    const imageElement = document.getElementById(`${this.symbol}companyImage`);
+    const nameElement = document.getElementById(`${this.symbol}companyName`);
+    const priceElement = document.getElementById(`${this.symbol}companyPrice`);
+    const changesPercentageElement = document.getElementById(
+      `${this.symbol}changesPercentage`
+    );
+    const descriptionElement = document.getElementById(
+      `${this.symbol}companyDescription`
+    );
+
+    const nameElementText = document.createTextNode(`${name} (${industry})`);
+    const priceElementText = document.createTextNode(price);
+    const changesPercentageElementText = document.createTextNode(
+      changesPercentage
+    );
+    const descriptionElementText = document.createTextNode(description);
+
+    imageElement.classList.remove(`invisible`);
+
+    imageElement.setAttribute(`src`, imageUrl);
+    nameElement.appendChild(nameElementText);
+    nameElement.setAttribute(`href`, websiteUrl);
+    priceElement.appendChild(priceElementText);
+    changesPercentageElement.appendChild(changesPercentageElementText);
+    descriptionElement.appendChild(descriptionElementText);
+
+    if (changesPercentage.includes(`+`)) {
+      changesPercentageElement.classList.add(`text-success`);
+    } else if (changesPercentage.includes(`-`)) {
+      changesPercentageElement.classList.add(`text-danger`);
     }
-
-    displayGraph(historicalPrice) {
-        this.addClass(`${this.symbol}historicalPriceChartSpinner`, `d-none`);
-
-        const ctx = document.getElementById(`${this.symbol}historicalPriceChart`).getContext(`2d`);
-
-        const historicalPriceLength = historicalPrice.length
-        const dates = [historicalPrice[0].date]
-        const prices = [historicalPrice[0].close]
-        for (let i = 0; i <= 1; i += 0.1) {
-            const historicalIndex = Math.floor(historicalPriceLength * i)
-            dates.push(historicalPrice[historicalIndex].date)
-            prices.push(historicalPrice[historicalIndex].close)
-        }
-        dates.push(historicalPrice[historicalPriceLength - 1].date)
-        prices.push(historicalPrice[historicalPriceLength - 1].close)
-
-        new Chart(ctx, {
-            type: `line`,
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: `Stock Price History`,
-                    backgroundColor: `rgb(255, 99, 132)`,
-                    borderColor: `rgb(255, 99, 132)`,
-                    data: prices
-                }]
-            }
-        });
-    }
-
-    displayCompanyData(companyData) {
-        this.addClass(`${this.symbol}companyDataSpinner`, `d-none`);
-
-        const name = companyData.profile.companyName;
-        const imageUrl = companyData.profile.image;
-        const description = companyData.profile.description;
-        const websiteUrl = companyData.profile.website;
-        const price = companyData.profile.price;
-        const changesPercentage = companyData.profile.changesPercentage;
-        const industry = companyData.profile.industry;
-
-        const imageElement = document.getElementById(`${this.symbol}companyImage`);
-        const nameElement = document.getElementById(`${this.symbol}companyName`);
-        const priceElement = document.getElementById(`${this.symbol}companyPrice`);
-        const changesPercentageElement = document.getElementById(`${this.symbol}changesPercentage`);
-        const descriptionElement = document.getElementById(`${this.symbol}companyDescription`);
-
-        const nameElementText = document.createTextNode(`${name} (${industry})`);
-        const priceElementText = document.createTextNode(price);
-        const changesPercentageElementText = document.createTextNode(changesPercentage);
-        const descriptionElementText = document.createTextNode(description);
-
-        imageElement.classList.remove(`invisible`);
-        // stockPriceText.classList.remove(`invisible`);
-
-        imageElement.setAttribute(`src`, imageUrl);
-        nameElement.appendChild(nameElementText);
-        nameElement.setAttribute(`href`, websiteUrl);
-        priceElement.appendChild(priceElementText);
-        changesPercentageElement.appendChild(changesPercentageElementText);
-        descriptionElement.appendChild(descriptionElementText);
-
-        if (changesPercentage.includes(`+`)) {
-            changesPercentageElement.classList.add(`text-success`);
-        } else if (changesPercentage.includes(`-`)) {
-            changesPercentageElement.classList.add(`text-danger`);
-        }
-    }
+  }
 }
