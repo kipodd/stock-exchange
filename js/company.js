@@ -4,12 +4,10 @@ function getSymbolsQueryString() {
 }
 
 function createCompanyContainers(companyContainerWrapper, symbols) {
-  const columnsAmount = 12 / symbols.length;
-
   for (const symbol of symbols) {
     companyContainerWrapper.insertAdjacentHTML(
       `beforeend`,
-      `<div id="${symbol}Container" class="col-${columnsAmount}"></div>`
+      `<div id="${symbol}Container" class="col"></div>`
     );
     const parentElement = document.getElementById(`${symbol}Container`);
     new CompanyInfo(parentElement, symbol);
@@ -20,4 +18,5 @@ const symbols = getSymbolsQueryString();
 const companyContainerWrapper = document.getElementById(
   `companyContainerWrapper`
 );
+
 createCompanyContainers(companyContainerWrapper, symbols);
