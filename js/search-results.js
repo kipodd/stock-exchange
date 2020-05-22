@@ -27,7 +27,8 @@ class SearchResults {
 
     try {
       const companyResponse = await fetch(
-        `https://financialmodelingprep.com/api/v3/search?query=${query}&limit=10&exchange=NASDAQ&apikey=4c4b4a6db91e54a7db74a9de8c1895b6`
+        `https://financialmodelingprep.com/api/v3/search?query=${query}&limit=10&exchange=NASDAQ&apikey=4c4b4a6db91e54a7db74a9de8c1895b6`,
+        {mode: `no-cors`}
       );
       const companyData = await companyResponse.json();
 
@@ -60,7 +61,8 @@ class SearchResults {
     const promiseContainer = companyTriplets.map(async triplet => {
       const tripletsSymbols = triplet.map(triplet => triplet.symbol).join();
       const tripletProfileResponse = await fetch(
-        `https://financialmodelingprep.com/api/v3/company/profile/${tripletsSymbols}?apikey=4c4b4a6db91e54a7db74a9de8c1895b6`
+        `https://financialmodelingprep.com/api/v3/company/profile/${tripletsSymbols}?apikey=4c4b4a6db91e54a7db74a9de8c1895b6`,
+        {mode: `no-cors`}
       );
       return await tripletProfileResponse.json();
     });
