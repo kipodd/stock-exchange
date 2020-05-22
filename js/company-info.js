@@ -56,8 +56,7 @@ class CompanyInfo {
   async getCompanyDetails() {
     try {
       const response = await fetch(
-        `https://financialmodelingprep.com/api/v3/company/profile/${this.symbol}?apikey=4c4b4a6db91e54a7db74a9de8c1895b6`,
-        {mode: `no-cors`}
+        `https://financialmodelingprep.com/api/v3/company/profile/${this.symbol}?apikey=4c4b4a6db91e54a7db74a9de8c1895b6`
       );
       const data = await response.json();
       this.displayCompanyData(data);
@@ -69,8 +68,7 @@ class CompanyInfo {
   async getGraph() {
     try {
       const response = await fetch(
-        `https://financialmodelingprep.com/api/v3/historical-price-full/${this.symbol}?serietype=line&apikey=4c4b4a6db91e54a7db74a9de8c1895b6`,
-        {mode: `no-cors`}
+        `https://financialmodelingprep.com/api/v3/historical-price-full/${this.symbol}?serietype=line&apikey=4c4b4a6db91e54a7db74a9de8c1895b6`
       );
       const data = await response.json();
       this.displayGraph(data.historical);
