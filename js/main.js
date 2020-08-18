@@ -1,18 +1,20 @@
-function displayContent() {
-  const searchButton = document.getElementById(`searchButton`);
-  const searchInput = document.getElementById(`searchInput`);
-  const resultsList = document.getElementById(`resultsList`);
-  const stocksComparisionBar = document.getElementById(`stocksComparisionBar`);
+const APIKEY = `900f6741599d1f1c1a16a0ec2be8bc7c`
 
-  new Marquee(document.getElementById(`stockMarqueeWrapper`));
-  new SearchForm(searchButton, searchInput, resultsList, stocksComparisionBar);
+function displayContent() {
+    const searchButton = document.getElementById(`searchButton`);
+    const searchInput = document.getElementById(`searchInput`);
+    const resultsList = document.getElementById(`resultsList`);
+    const stocksComparisionBar = document.getElementById(`stocksComparisionBar`);
+
+    new Marquee(document.getElementById(`stockMarqueeWrapper`), APIKEY);
+    new SearchForm(searchButton, searchInput, resultsList, stocksComparisionBar, APIKEY);
 }
 
 function loadHTML() {
-  const mainCotainer = document.getElementById(`mainContainer`);
-  mainCotainer.insertAdjacentHTML(
-    `beforeend`,
-    `
+    const mainCotainer = document.getElementById(`mainContainer`);
+    mainCotainer.insertAdjacentHTML(
+        `beforeend`,
+        `
         <div class="row">
             <div class="col-12">
                 <div class="stockMarqueeWrapperParent">
@@ -59,7 +61,7 @@ function loadHTML() {
             </div>
         </div>
     `
-  );
+    );
 }
 
 loadHTML();

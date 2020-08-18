@@ -1,7 +1,8 @@
 class SearchResults {
-  constructor(resultsList, stocksComparisionBar) {
+  constructor(resultsList, stocksComparisionBar, APIKEY) {
     this.resultsList = resultsList;
     this.stocksComparisionBar = stocksComparisionBar;
+    this.APIKEY = APIKEY;
   }
 
   clearStockList() {
@@ -27,7 +28,7 @@ class SearchResults {
 
     try {
       const companyResponse = await fetch(
-        `https://financialmodelingprep.com/api/v3/search?query=${query}&limit=10&exchange=NASDAQ&apikey=4c4b4a6db91e54a7db74a9de8c1895b6`
+        `https://financialmodelingprep.com/api/v3/search?query=${query}&limit=10&exchange=NASDAQ&apikey=${APIKEY}`
       );
       const companyData = await companyResponse.json();
 
@@ -60,7 +61,7 @@ class SearchResults {
     const promiseContainer = companyTriplets.map(async triplet => {
       const tripletsSymbols = triplet.map(triplet => triplet.symbol).join();
       const tripletProfileResponse = await fetch(
-        `https://financialmodelingprep.com/api/v3/company/profile/${tripletsSymbols}?apikey=4c4b4a6db91e54a7db74a9de8c1895b6`
+        `https://financialmodelingprep.com/api/v3/company/profile/${tripletsSymbols}?apikey=${APIKEY}`
       );
       return await tripletProfileResponse.json();
     });
