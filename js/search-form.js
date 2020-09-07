@@ -1,12 +1,14 @@
 class SearchForm {
-  constructor(searchButton, searchInput, resultsList, stocksComparisionBar) {
+  constructor(searchButton, searchInput, resultsList, stocksComparisionBar, APIKEY) {
     this.searchButton = searchButton;
     this.searchInput = searchInput;
     this.resultsList = resultsList;
     this.stocksComparisionBar = stocksComparisionBar;
+    this.APIKEY = APIKEY;
     this.ResultsClass = new SearchResults(
       this.resultsList,
-      this.stocksComparisionBar
+      this.stocksComparisionBar,
+      this.APIKEY
     );
 
     this.searchQueryString();

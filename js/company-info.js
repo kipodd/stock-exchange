@@ -1,5 +1,7 @@
 class CompanyInfo {
   constructor(parentElement, symbol) {
+    this.APIKEY = `900f6741599d1f1c1a16a0ec2be8bc7c`
+
     this.parentElement = parentElement;
     this.symbol = symbol;
 
@@ -56,7 +58,7 @@ class CompanyInfo {
   async getCompanyDetails() {
     try {
       const response = await fetch(
-        `https://financialmodelingprep.com/api/v3/company/profile/${this.symbol}?apikey=4c4b4a6db91e54a7db74a9de8c1895b6`
+        `https://financialmodelingprep.com/api/v3/company/profile/${this.symbol}?apikey=${this.APIKEY}`
       );
       const data = await response.json();
       this.displayCompanyData(data);
@@ -68,7 +70,7 @@ class CompanyInfo {
   async getGraph() {
     try {
       const response = await fetch(
-        `https://financialmodelingprep.com/api/v3/historical-price-full/${this.symbol}?serietype=line&apikey=4c4b4a6db91e54a7db74a9de8c1895b6`
+        `https://financialmodelingprep.com/api/v3/historical-price-full/${this.symbol}?serietype=line&apikey=${this.APIKEY}`
       );
       const data = await response.json();
       this.displayGraph(data.historical);

@@ -1,7 +1,8 @@
 import {APIKey} from "./api-key.js";
 class Marquee {
-  constructor(stockMarqueeWrapper) {
+  constructor(stockMarqueeWrapper, APIKEY) {
     this.stockMarqueeWrapper = stockMarqueeWrapper;
+    this.APIKEY = APIKEY;
     this.getRealTimePrices();
   }
 
