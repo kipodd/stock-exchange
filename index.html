@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Stock Exchange</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -17,10 +17,13 @@
   <body>
     <div id="mainContainer" class="container-fluid"></div>
 
-    <script src="js/marquee.js"></script>
-    <script src="js/search-form.js"></script>
-    <script src="js/search-results.js"></script>
-    <script src="js/companies-comparer.js"></script>
+    <!-- <script type="module">
+      import {APIKey} from "./js/api-key.js";
+    </script> -->
+    <script type="module" src="js/marquee.js"></script>
+    <script type="module" src="js/search-form.js"></script>
+    <script type="module" src="js/search-results.js"></script>
+    <script type="module" src="js/companies-comparer.js"></script>
     <script src="js/main.js"></script>
   </body>
 </html>

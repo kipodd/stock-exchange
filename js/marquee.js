@@ -1,3 +1,4 @@
+import {APIKey} from "./api-key.js";
 class Marquee {
   constructor(stockMarqueeWrapper) {
     this.stockMarqueeWrapper = stockMarqueeWrapper;
@@ -6,7 +7,7 @@ class Marquee {
 
   async getRealTimePrices() {
     const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/stock/real-time-price?apikey=4c4b4a6db91e54a7db74a9de8c1895b6`
+      `https://financialmodelingprep.com/api/v3/stock/real-time-price?apikey=${APIKey}`
     );
     const data = await response.json();
 
